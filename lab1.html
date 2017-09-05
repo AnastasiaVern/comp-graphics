@@ -1,0 +1,46 @@
+<HTML>
+<body>
+<script>
+  function onClick(event) {
+            var ctx1=canvas.getContext('2d');
+          // alert('Hello: x='+event.offsetX+' y='+event.offsetY);
+            //ctx1.fillStyle = '#ffa089';   
+            ctx1.fillRect(event.offsetX,event.offsetY,1,1);
+
+           }
+ </script>
+<canvas id = 'lab01' height='1000' width='10000'>
+          <script>
+                var canvas = document.getElementById('lab01');
+                var ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffa089';
+                ctx.fillRect(10,10, 50, 50); // upper left x,y,height,width
+                //ctx.fillStyle = '#ff5024' ;
+                //ctx.fillRect(100,10, 100, 10000); 
+                //ctx.fillStyle = '#ffa089';
+                //ctx.fillRect(200,10, 100, 10000);
+
+                 var array = new Array(100);
+                 for (i=0; i<100; i++) {
+                             array[i]=1;
+                             
+                  }
+                  for (i=40; i<60; i++) {
+                             array[i]=0;
+                             
+                  }
+                      ctx.fillStyle='#0000aa';
+                     for (i=0; i<100; i++) {
+                           if (array[i] == 1) 
+                 { 
+                             ctx.fillRect(i,i,1,1);
+                }
+                                    }
+                    canvas.addEventListener('click', onClick);
+
+          </script>
+</canvas>
+
+
+</body>
+</HTML>
