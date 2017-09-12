@@ -66,19 +66,16 @@ function loadFileAsText()
 		var textFromFileLoaded = fileLoadedEvent.target.result;
 		      var canvas = document.getElementById('lab02');
 	        var ctx=canvas.GetContext('2d');
-	        for ( int i=0; i<length(textFromFileLoaded); i++) 
+	        for ( int i=0; i<10; i++) 
 	          {
-	        	for (int j=0; j<length(textFromFileLoaded); j++) 
-	        	        {
-	        if (textFromFileLoaded[i] == 1) 
-	        {
-                                                      
-        	                	ctx.fillRect(i,j,1,1);
-	        }
-	        else (textFromFileLoaded[i] == 0)
-	        	 {
-	        	 	ctx.clearRect(i,j,1,1);
-	        	 }           
+	        	for (int j=0; j<10; j++) 
+	        	           {
+	        if (textFromFileLoaded[10*i+1] == '1') 
+	              {
+                                 
+        	                	ctx.fillRect(j,i,1,1);
+	              }
+	              
 	        	           }
                }
 	        document.getElementById("inputTextToSave").value = textFromFileLoaded;
