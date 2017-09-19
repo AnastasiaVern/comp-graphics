@@ -1,0 +1,59 @@
+<HTML>
+<body>
+
+<canvas id = 'lab01' height='10000' width='10000'>
+          <script>
+                var canvas = document.getElementById('lab01');
+                var ctx = canvas.getContext('2d');
+                //ctx.fillStyle = '#ffa089';
+                //ctx.fillRect(10,10, 50, 50); // upper left x,y,height,width
+var img=new Image();
+img.src='https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fimg15.nnm.me%2Fc%2F2%2Ff%2F8%2F1%2F04a9e83a7cacd72ecd3b482768a.jpg&f=1';
+img.onload=function() 
+{
+ctx.drawImage(img,0,0);
+}
+
+var imgData = ctx.getImageData(0,0,10,10);
+var imgArray=imgData.data;
+
+var p1=0;
+var p2=0;
+var p3=0;
+var p4=0;
+var p5=0;
+var p6=0;
+var p7=0;
+var p8=0;
+
+        for (int i=1; i<ctx.width-1; i++) 
+        {
+        	for (j=1; j<ctx.height-1; j++) 
+        	{
+
+                   p8=imgArray[((i+1)*ctx.width + j)*4];
+                   p7=imgArray[((i+1)*ctx.width + j-1)*4];
+                   p6=imgArray[((i+1)*ctx.width + j+1)*4];
+                   p5=imgArray[(i*ctx.width + j+1)*4];
+                   p4=imgArray[((i-1)*ctx.width + j-1)*4];
+                   p3=imgArray[((i-1)*ctx.width + j+1)*4];
+                   p2=imgArray[((i-1)*ctx.width + j)*4];
+                   p1=imgArray[(i*ctx.width + j-1)*4];
+
+                   var Gx=(p7+2*p8+p9)-(p1+2*p2+p3);
+                   var Gy=()
+
+        	}
+        }
+
+                //ctx.fillStyle = '#ff5024' ;
+                //ctx.fillRect(100,10, 100, 10000); 
+                //ctx.fillStyle = '#ffa089';
+                //ctx.fillRect(200,10, 100, 10000);
+               
+          </script>
+</canvas>
+
+
+</body>
+</HTML>
