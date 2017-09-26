@@ -31,17 +31,19 @@ var p8=0;
         	for (j=1; j<ctx.height-1; j++) 
         	{
 
+                   p9=imgArray[((i+1)*ctx.width + j+1)*4];
                    p8=imgArray[((i+1)*ctx.width + j)*4];
                    p7=imgArray[((i+1)*ctx.width + j-1)*4];
-                   p6=imgArray[((i+1)*ctx.width + j+1)*4];
-                   p5=imgArray[(i*ctx.width + j+1)*4];
-                   p4=imgArray[((i-1)*ctx.width + j-1)*4];
+                   p5=imgArray[((i+1)*ctx.width + j+1)*4];
+                   p6=imgArray[(i*ctx.width + j+1)*4];
+                   p1=imgArray[((i-1)*ctx.width + j-1)*4];
                    p3=imgArray[((i-1)*ctx.width + j+1)*4];
                    p2=imgArray[((i-1)*ctx.width + j)*4];
-                   p1=imgArray[(i*ctx.width + j-1)*4];
+                   p4=imgArray[(i*ctx.width + j-1)*4];
 
                    var Gx=(p7+2*p8+p9)-(p1+2*p2+p3);
-                   var Gy=()
+                   var Gy=0;
+                   var G=Math.sqrt(Gx*Gx+Gy*Gy);
 
         	}
         }
