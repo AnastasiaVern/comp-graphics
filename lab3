@@ -8,46 +8,58 @@
                 //ctx.fillStyle = '#ffa089';
                 //ctx.fillRect(10,10, 50, 50); // upper left x,y,height,width
 var img=new Image();
-img.src='https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fimg15.nnm.me%2Fc%2F2%2Ff%2F8%2F1%2F04a9e83a7cacd72ecd3b482768a.jpg&f=1';
+img.src='http://s1.iconbird.com/ico/0912/ILikeButtons3A/w512h5121348753316CuteBallFavorites.png';
 img.onload=function() 
 {
 ctx.drawImage(img,0,0);
 }
 
-var imgData = ctx.getImageData(0,0,10,10);
+var imgData = ctx.getImageData(0,0,100,100);
 var imgArray=imgData.data;
 
-var p1=0;
-var p2=0;
-var p3=0;
-var p4=0;
-var p5=0;
-var p6=0;
-var p7=0;
-var p8=0;
 
-        for (int i=1; i<ctx.width-1; i++) 
+var w1= [[-1,-2,-1],[0,0,0], [1,2,1]];
+var w2=[[-1,0,-1],[-2,0,2],[-1,0,1]];
+
+var rez1=0;
+var j,i;
+
+var rez2=0;
+//var new_img=new Array(ctx.height-1*ctx.width-1*4);
+
+
+function SobelGx(x,y) 
+{
+        for (i=0;i<ctx.width; i++ ) 
+        {
+           for(j=0; j<ctx.height; j++) 
+           {
+                 rez1 +=w1[i*ctx.width+j]*imgArray[(x+i-1)*ctx.width+(y+j-1)];
+           }
+        }
+        return rez1*rez1;
+}
+
+function SobelGy(x, y) 
+{
+        for (i=0;i<ctx.width; i++ ) 
+        {
+           for(j=0; j<ctx.height; j++) 
+           {
+                 rez2 +=w2[i*ctx.width+j]*imgArray[(x+i-1)*ctx.width+(y+j-1)];
+           }
+        }
+        return rez2*rez2;
+}
+
+        for (i=1; i<ctx.width-1; i++) 
         {
         	for (j=1; j<ctx.height-1; j++) 
         	{
-
-                   p9=imgArray[((i+1)*ctx.width + j+1)*4];
-                   p8=imgArray[((i+1)*ctx.width + j)*4];
-                   p7=imgArray[((i+1)*ctx.width + j-1)*4];
-                   p5=imgArray[((i+1)*ctx.width + j+1)*4];
-                   p6=imgArray[(i*ctx.width + j+1)*4];
-                   p1=imgArray[((i-1)*ctx.width + j-1)*4];
-                   p3=imgArray[((i-1)*ctx.width + j+1)*4];
-                   p2=imgArray[((i-1)*ctx.width + j)*4];
-                   p4=imgArray[(i*ctx.width + j-1)*4];
-
-                   var Gx=(p7+2*p8+p9)-(p1+2*p2+p3);
-                   var Gy=0;
-                   var G=Math.sqrt(Gx*Gx+Gy*Gy);
-
+            imgData.data[(i*ctx.width+j)*4+1]=Math.sqrt(SobelGx(i,j)+SobelGy(i,j));
         	}
         }
-
+           ctx.putImageData(imgData, 150,0);
                 //ctx.fillStyle = '#ff5024' ;
                 //ctx.fillRect(100,10, 100, 10000); 
                 //ctx.fillStyle = '#ffa089';
