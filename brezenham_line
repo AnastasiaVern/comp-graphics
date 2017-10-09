@@ -1,0 +1,66 @@
+<HTML>
+<body>
+<script>
+
+function drawpix(x,y){
+
+   var c1 = document.getElementById('dz3');
+   var rContext = c1.getContext('2d');
+   rContext.beginPath();
+   rContext.moveTo(x,y);
+   rContext.lineTo(x+1,y+1);
+   rContext.closePath();
+   rContext.strokeStyle= 'white';
+   rContext.stroke();
+  
+
+}
+
+function drawline(xa,ya,xb,yb){
+    var dx=Math.abs(xa-xb);
+    var dy=Math.abs(ya-yb);
+    var p=2*dy-dx;
+    var twody=2*dy;
+    var twodydx=2*(dy-dx);
+    var x,y,xend;
+
+    if(xa>xb)
+    {
+        x=xb;
+        y=yb;
+        xend=xa;
+    }
+    else
+    {
+        x=xa;
+        y=yb;
+        xend=xb;
+    }
+    drawpix(x,y);
+    while(x<xend)
+    {
+        x++;
+        if(p<0)
+        {
+            p+=twody;
+        }
+        else
+        {
+            y++;
+            p+=twodydx;
+        }
+        drawpix(x,y);
+    }
+}
+
+</script>
+
+<canvas id = 'dz3' height='1000' width='10000'>
+          <script>
+                var canvas = document.getElementById('dz3');
+                var ctx = canvas.getContext('2d');
+                drawline(1,1,1,1);
+           </script>
+
+</body>
+</HTML>
