@@ -55,7 +55,7 @@ function drawline(xa,ya,xb,yb){
 
 </script>
 
-<canvas id = 'dz3' height='1000' width='10000'>
+<canvas id = 'dz3' height='1000' width='10000'> </canvas>
           <script>
                 var canvas = document.getElementById('dz3');
                 var ctx = canvas.getContext('2d');
