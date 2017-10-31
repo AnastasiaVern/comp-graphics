@@ -1,0 +1,76 @@
+<HTML>
+<body>
+
+<canvas id='lab7' height='1000' width='1000'> </canvas>
+<script>
+              var canvas=document.getElementById('lab7');
+              var ctx=canvas.getContext('2d');
+
+            var ax = 10;
+            var ay = 10;
+            var bx = 20;
+            var by = 10;
+            var cx = 20;
+            var cy = 20;
+            var dx = 10;
+            var dy = 20;
+
+            ctx.strokeStyle = '#ff0000';
+             ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(bx, by);
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.moveTo(bx, by);
+            ctx.lineTo(cx,cy);
+            ctx.stroke();
+              
+              ctx.strokeStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(dx, dy);
+            ctx.stroke();
+ 
+            ctx.strokeStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.moveTo(dx, dy);
+            ctx.lineTo(ax, ay);
+            ctx.stroke();
+
+            color='#ff0000';
+
+            var x=15;
+            var y=15;
+
+          //  var image = ctx.getImageData(x,y,1,1);
+ 
+            function zatravka(x,y,color) 
+            {
+            	imageinfo=ctx.getImageData(x,y,1,1);
+            	imagedata=imageinfo.data;
+
+            	if (imagedata == '#ff0000') 
+            	{
+                        ;
+            	}
+            	else 
+                       {
+                       	imagedata.strokeStyle='#ff0000';
+                       }
+                   if (x>=0 && y>=0) 
+                       {
+                       	 zatravka(x+1,y,color);
+                       	 zatravka(x-1,y,color);
+                       	 zatravka(x,y+1,color);
+                       	 zatravka(x,y-1,color);
+                       }
+            }
+  
+            zatravka(x,y,"#ff0000");
+			
+</script>
+
+</body>
+</HTML>
