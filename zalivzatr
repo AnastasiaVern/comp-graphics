@@ -1,13 +1,9 @@
 <HTML>
 <body>
 <script>
-<canvas id = 'lab8' height='1000' width='10000'> </canvas>
+<canvas id = 'lab8' height='20' width='20'> </canvas>
  const canvas = document.querySelector('#main-canvas')
 const ctx = canvas.getContext('2d')
-
-// Set canvas size
-canvas.width = 200
-canvas.height = 200
 
 // Fill the canvas and create some shapes
 ctx.fillStyle = '#000'
