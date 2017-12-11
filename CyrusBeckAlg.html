@@ -1,0 +1,254 @@
+<HTML>
+<body>
+<canvas> id = 'lab01' height='10000' width='10000' </canvas>
+   <script>
+              
+class Point
+{
+	constructor(x, y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	add(b)
+	{
+		return new Point(this.x + b.x, this.y + b.y);
+	}
+
+	sub(b)
+	{
+		return new Point(this.x - b.x, this.y - b.y);
+	}
+	
+	mult(b)
+	{
+		return new Point(this.x * b, this.y * b);
+	}
+	
+	dot(b)
+	{
+		return this.x * b.x + this.y * b.y;
+	}
+
+	cross(b)
+	{
+		return this.x * b.y - this.y * b.x;
+	}
+}
+
+class Line
+{
+	constructor(begin, end)
+	{
+		this.begin = begin;
+		this.end = end;
+	}
+	
+	onLeft(p)
+	{
+		var ab = new Point(this.end.x - this.begin.x, this.end.y - this.begin.y);
+		var ap = new Point(p.x - this.begin.x, p.y - this.begin.y);
+		return ab.cross(ap) >= 0;
+	}
+	
+	direction()
+	{
+		return new Point(this.end.x - this.begin.x, this.end.y - this.begin.y);
+	}
+
+	normal()
+	{
+		return new Point(this.end.y - this.begin.y, this.begin.x - this.end.x);
+	}
+	
+	intersectionParameter(that)
+	{
+		var line = this;
+		var edge = that;
+
+		var segmentToEdge = edge.begin.sub(line.begin);
+		var segmentDir = line.direction();
+		var edgeDir = edge.direction();
+
+		var t;
+		var temp = edgeDir.cross(segmentDir);
+		if (temp == 0)
+			t = 0;
+		else
+			t = edgeDir.cross(segmentToEdge) / temp;
+		return t;
+	}
+
+	morph(tA, tB)
+	{
+		var d = this.direction();
+		return new Line(this.begin.add(d.mult(tA)), this.begin.add(d.mult(tB)));
+	}
+}
+
+function drawLine(line)
+{
+	var xBegin =  Math.floor(line.begin.x);
+	var yBegin = Math.floor(line.begin.y);
+	var xEnd =  Math.floor(line.end.x);
+	var yEnd =  Math.floor(line.end.y);
+	var a = Math.abs(xBegin - xEnd);
+	var b = Math.abs(yBegin - yEnd);
+	ctx.fillRect(xBegin, yBegin, 1, 1);
+	if (b / a < 1)
+	{
+		var y = yBegin;
+		var e = 2 * b - a;
+		for (var i = 0; i < a; i++)
+		{
+			e += 2 * b;
+			if (e > 0)
+			{
+				if (yBegin >= yEnd)
+					y -= 1;
+				else
+					y += 1;
+				e -= 2 * a;
+			}
+			if (xBegin <= xEnd)
+				ctx.fillRect(xBegin + i, y, 1, 1);
+			else
+				ctx.fillRect(xBegin - i, y, 1, 1);
+		}
+	}
+	else
+	{	
+		var x = xBegin;
+		var e = 2 * a - b;
+		for (var i = 0; i < b; i++)
+		{
+			e += 2 * a;
+			if (e > 0)
+			{
+				if (xBegin >= xEnd)
+					x -= 1;
+				else
+					x += 1;
+				e -= 2 * b;
+			}
+			if (line.begin.y <= yEnd)
+				ctx.fillRect(x, yBegin + i, 1, 1);
+			else
+				ctx.fillRect(x, yBegin - i, 1, 1);
+		}
+	}
+	ctx.fillRect(xEnd, yEnd, 1, 1);
+}
+
+class Polygon
+{
+	constructor(points)
+	{
+		this.count = points.length;
+		this.pnts = points;
+		this.edges = [];
+		for (var i = 0; i < this.count - 1; i++)
+			this.edges[i] = new Line(points[i], points[i + 1]);
+		this.edges[this.count - 1] = new Line(points[this.count - 1], points[0]);
+	}
+	
+	draw()
+	{
+		for (var i = 0; i < this.count; i++)
+			drawLine(this.edges[i]);
+	}
+	
+	isConvex()
+	{
+		if (this.count >= 3)
+		{
+			for (var a = this.count - 2, b = this.count - 1, c = 0; c < this.count; a = b, b = c, ++c)
+			{
+				if (!new Line(this.pnts[a], this.pnts[b]).onLeft(this.pnts[c]))
+				{
+					return false;
+				}
+			}
+		}
+		else 
+			return false;
+		return true;
+	}
+	
+	reverse()
+	{
+		
+		this.pnts.reverse();
+		this.edges.reverse();
+		var temp;
+		for (var i = 0; i < this.count; i++)
+		{
+			temp = this.edges[i].begin;
+			this.edges[i].begin = this.edges[i].end;
+			this.edges[i].end = temp;
+		}
+	}
+	
+	cyruse_beck(l)
+	{
+		var lDir = l.direction();
+		var tA = 0.0;
+		var tB = 1.0;
+		for (var i = 0; i < this.count; i++)
+		{
+			switch (Math.sign(this.edges[i].normal().dot(lDir)))
+			{
+				case -1:
+				{
+					var t = l.intersectionParameter(this.edges[i]);
+					if (t > tA)
+						tA = t;
+					break;
+				}
+				case +1:
+				{
+					var t = l.intersectionParameter(this.edges[i]);
+					if (t < tB)
+						tB = t;
+					break;
+				}
+				case 0:
+				{
+					if (!this.edges[i].onLeft(l.begin))
+						return false;
+					break;
+				}
+			}
+		}
+		if (tA > tB)
+			return false;
+		var li = l.morph(tA, tB);
+		l.begin = li.begin;
+		l.end = li.end;
+		return true;
+	}
+}
+
+function clip()
+{
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	var polygon = new Polygon(points);
+	polygon.draw();
+	if (!polygon.isConvex())
+	{
+		polygon.reverse();
+		if (!polygon.isConvex())
+			return;
+	}
+	
+	for (var i = 0; i < lines.length; i++)
+		if (polygon.cyruse_beck(lines[i]) == true)
+			drawLine(lines[i]);
+}
+
+  var canvas = document.getElementById('lab01');
+                var ctx = canvas.getContext('2d');
+</script>
+</body>
+<HTML>
