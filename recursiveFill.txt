@@ -1,0 +1,26 @@
+<HTML>
+<body>
+<canvas id = 'lab01' height='1000' width='10000'> </canvas>
+<script>
+
+ var canvas = document.getElementById('lab01');
+ var ctx = canvas.getContext('2d');
+var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data; 
+
+function fill(point)
+{
+	if (imgData[4*(point.y*canvas.width+point.x) + 3] == 0)
+	{
+		ctx.fillRect(point.x, point.y, 1, 1);
+		imgData[4*(point.y*canvas.width+point.x) + 3] = 255;
+	}
+	else
+		return;
+	fill(new Point(point.x, point.y-1));
+	fill(new Point(point.x+1, point.y));
+	fill(new Point(point.x, point.y+1));
+	fill(new Point(point.x-1, point.y));
+}
+</script>
+</body>
+</HTML>
