@@ -114,8 +114,7 @@
                       C4 * t * t * t;
             }
 
-            // Get point at time t
-            //  - t [0 .. 1]
+       
             Bezier.prototype.getPoint = function ( t ) {
                 var x = bezierAt(this.start.x, this.startCtrlPoint.x, this.endCtrlPoint.x, this.end.x, t);
                 var y = bezierAt(this.start.y, this.startCtrlPoint.y, this.endCtrlPoint.y, this.end.y, t);
@@ -123,7 +122,7 @@
                 return new v2(x, y);
             };
 
-            // Get total curve arc length
+           
             Bezier.prototype.getLength = function () {
 
                 var lengths = this.getLengths();
@@ -131,7 +130,6 @@
 
             };
 
-            // Get list of cumulative segment lengths
             Bezier.prototype.getLengths = function ( divisions ) {
 
                 if ( ! divisions ) divisions = (this.__arcLengthDivisions) ? (this.__arcLengthDivisions): 200;
@@ -161,7 +159,7 @@
 
                 this.cacheArcLengths = cache;
 
-                return cache; // { sums: cache, sum:sum }; Sum is in the last element.
+                return cache; 
             };
 
             Bezier.prototype.getUtoTmapping = function ( u, distance ) {
@@ -170,7 +168,7 @@
 
                 var i = 0, il = arcLengths.length;
 
-                var targetArcLength; // The targeted u distance value to get
+                var targetArcLength;
 
                 if ( distance ) {
                     targetArcLength = distance;
@@ -178,15 +176,13 @@
                     targetArcLength = u * arcLengths[ il - 1 ];
                 }
 
-                //var time = Date.now();
-
-                // binary search for the index with largest value smaller than target u distance
+               
 
                 var low = 0, high = il - 1, comparison;
 
                 while ( low <= high ) {
 
-                    i = Math.floor( low + ( high - low ) / 2 ); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
+                    i = Math.floor( low + ( high - low ) / 2 ); 
 
                     comparison = arcLengths[ i ] - targetArcLength;
 
@@ -213,8 +209,7 @@
 
                 i = high;
 
-                //console.log('b' , i, low, high, Date.now()- time);
-
+             
                 if ( arcLengths[ i ] == targetArcLength ) {
 
                     var t = i / ( il - 1 );
@@ -222,20 +217,16 @@
 
                 }
 
-                // we could get finer grain at lengths, or use simple interpolatation between two points
+           
 
                 var lengthBefore = arcLengths[ i ];
                 var lengthAfter = arcLengths[ i + 1 ];
 
                 var segmentLength = lengthAfter - lengthBefore;
 
-                // determine where we are between the 'before' and 'after' points
-
                 var segmentFraction = ( targetArcLength - lengthBefore ) / segmentLength;
 
-                // add that fractional amount to t
-
-                var t = ( i + segmentFraction ) / ( il -1 );
+                     var t = ( i + segmentFraction ) / ( il -1 );
 
                 return t;
 
@@ -363,7 +354,7 @@
 
                 for (var i = 0; i < curve.points.length; i++) {
                     var point = curve.points[i];
-                    //points.push(bezier.start, bezier.startCtrlPoint, bezier.endCtrlPoint, bezier.end);
+                  
                     var dis = v2.sqrDistance(point.pos, mousePos);
                     if (dis < SqrHitRadius) {
                         draggingPoint = i;
