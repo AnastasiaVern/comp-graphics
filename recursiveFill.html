@@ -1,26 +1,44 @@
-<HTML>
+<html>
 <body>
-<canvas id = 'lab01' height='1000' width='10000'> </canvas>
-<script>
+    <canvas id="lab" width="1024" height="720" style="border: 1px solid"></canvas>
+    <script>
+                var canvas = document.getElementById('lab');
+                var ctx = canvas.getContext('2d');
+                ctx.strokeRect(100, 100, 100, 100);
+                var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
- var canvas = document.getElementById('lab01');
- var ctx = canvas.getContext('2d');
-var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data; 
 
-function fill(point)
-{
-	if (imgData[4*(point.y*canvas.width+point.x) + 3] == 0)
-	{
-		ctx.fillRect(point.x, point.y, 1, 1);
-		imgData[4*(point.y*canvas.width+point.x) + 3] = 255;
-	}
-	else
-		return;
-	fill(new Point(point.x, point.y-1));
-	fill(new Point(point.x+1, point.y));
-	fill(new Point(point.x, point.y+1));
-	fill(new Point(point.x-1, point.y));
-}
-</script>
+                class Point {
+                    constructor(x, y) {
+                        this.x = x;
+                        this.y = y;
+                    }
+
+                    draw() {
+                        ctx.fillRect(this.x, this.y, 1, 1);
+                    }
+                }
+
+
+                function fill(point) {
+                    if (imgData[4 * (point.y * canvas.width + point.x) + 3] == 0) {
+                        ctx.fillRect(point.x, point.y, 1, 1);
+                        imgData[4 * (point.y * canvas.width + point.x) + 3] = 255;
+                    }
+                    else
+                        return;
+                    fill(new Point(point.x, point.y - 1));
+                    fill(new Point(point.x + 1, point.y));
+                    fill(new Point(point.x, point.y + 1));
+                    fill(new Point(point.x - 1, point.y));
+                }
+
+                function begin(event) {
+                    var p = new Point(event.clientX, event.clientY);
+                    fill(p);
+                }
+
+                canvas.addEventListener('click', begin);
+    </script>
 </body>
-</HTML>
+</html>
